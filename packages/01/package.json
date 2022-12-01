@@ -2,9 +2,9 @@
   "name": "01",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start:dev": "npx nodemon",
+    "start:dev": "npx nodemon \"data/input.txt\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
