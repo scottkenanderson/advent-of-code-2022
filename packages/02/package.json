@@ -2,10 +2,11 @@
   "name": "02",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "devDependencies": {},
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "npm run build && node build/index.js data/input.txt",
+    "start:dev": "npx nodemon data/input.txt"
   },
   "repository": {
     "type": "git",
