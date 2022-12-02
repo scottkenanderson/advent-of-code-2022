@@ -24,7 +24,6 @@ filePromise
     const caloriesPerElf = elves.map((value) => value.reduce((prev, cur) => prev + cur));
     const maxCalories = caloriesPerElf.reduce((prev, cur) => Math.max(prev, cur));
     caloriesPerElf.sort((a, b) => b - a);
-    // caloriesPerElf.sort((a: number, b: number) => Math.min(a, b));
     const top3Calories = caloriesPerElf.slice(0, 3).reduce((prev, cur) => prev + cur)
     console.log(`Part 1: ${maxCalories}`);
     console.log(`Part 2: ${top3Calories}`);

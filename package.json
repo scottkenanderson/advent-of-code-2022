@@ -13,7 +13,8 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "packages/01"
+    "packages/01",
+    "packages/02"
   ],
   "devDependencies": {
     "@types/node": "^18.11.10",
