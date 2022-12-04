@@ -1,18 +1,6 @@
-import { stringify } from "querystring";
-import { cachedDataVersionTag } from "v8";
+import { readFile, sum } from 'aoc-utils';
 
-const fs = require('fs');
-
-const filePromise = () => (new Promise<Array<string>>((resolve, reject) => {
-  const filename = process.argv[2];
-  fs.readFile(filename, 'utf8', (err: unknown, data: string) => {
-    resolve(data.split("\n"));
-  })
-}));
-
-const sum = (a: number, b: number): number => a + b;
-
-filePromise()
+readFile()
   .then((data) => (
     data.map((line) => ([
       line.slice(0, line.length / 2),
@@ -32,7 +20,7 @@ filePromise()
     console.log(`Part 1: ${priority}`);
   });
 
-filePromise()
+readFile()
   .then((rucksacks) => {
     const buckets: Array<Array<string>> = [[]];
     rucksacks.forEach((rucksack) => {

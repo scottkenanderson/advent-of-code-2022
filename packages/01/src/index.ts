@@ -1,13 +1,6 @@
-const fs = require('fs')
+import { readFile } from 'aoc-utils';
 
-const filePromise = new Promise<Array<string>>((resolve, reject) => {
-  const filename = process.argv[2];
-  fs.readFile(filename, 'utf8', (err: unknown, data: string) => {
-    resolve(data.split("\n"));
-  })
-})
-
-filePromise
+readFile()
   .then((data) => {
     const elves: Array<Array<number>> = [[]]
     data.forEach((ration) => {
