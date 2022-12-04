@@ -1,0 +1,24 @@
+{
+  "name": "aoc-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {},
+  "scripts": {
+    "build": "tsc",
+    "start:dev": "npx nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scottkenanderson/advent-of-code-2022.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scottkenanderson/advent-of-code-2022/issues"
+  },
+  "homepage": "https://github.com/scottkenanderson/advent-of-code-2022#readme"
+}
