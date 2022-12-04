@@ -14,7 +14,9 @@
   "license": "ISC",
   "workspaces": [
     "packages/01",
-    "packages/02"
+    "packages/02",
+    "packages/03",
+    "packages/aoc-utils"
   ],
   "devDependencies": {
     "@types/node": "^18.11.10",

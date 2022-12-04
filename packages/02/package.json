@@ -2,10 +2,10 @@
   "name": "02",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && node build/index.js data/input.txt",
+    "start": "npm run build && node dist/index.js data/input.txt",
     "start:dev": "npx nodemon data/input.txt"
   },
   "repository": {
