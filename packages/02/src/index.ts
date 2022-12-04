@@ -1,4 +1,4 @@
-const fs = require('fs');
+import { filePromise, sum } from 'aoc-utils';
 
 enum Outcomes {
   Win,
@@ -88,15 +88,6 @@ const neededResult = (opponent: Shapes, outcome: Outcomes) => {
   }
   throw new Error("Unknown outcome!")
 }
-
-const filePromise = () => (new Promise<Array<string>>((resolve, reject) => {
-  const filename = process.argv[2];
-  fs.readFile(filename, 'utf8', (err: unknown, data: string) => {
-    resolve(data.split("\n"));
-  })
-}));
-
-const sum = (a: number, b: number): number => a + b;
 
 filePromise()
   .then((data) => (data.map((line) => line.split(" "))))
