@@ -1,7 +1,7 @@
-import { filePromise } from 'aoc-utils';
+import { readFile } from 'aoc-utils';
 import { SectionAssignment } from './SectionAssignment';
 
-const readFile = filePromise()
+const readFile = readFile()
   .then((data) => (
     data
       .map((line) => line.split(','))

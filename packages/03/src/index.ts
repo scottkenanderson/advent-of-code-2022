@@ -1,6 +1,6 @@
-import { filePromise, sum } from 'aoc-utils';
+import { readFile, sum } from 'aoc-utils';
 
-filePromise()
+readFile()
   .then((data) => (
     data.map((line) => ([
       line.slice(0, line.length / 2),
@@ -20,7 +20,7 @@ filePromise()
     console.log(`Part 1: ${priority}`);
   });
 
-filePromise()
+readFile()
   .then((rucksacks) => {
     const buckets: Array<Array<string>> = [[]];
     rucksacks.forEach((rucksack) => {

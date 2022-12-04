@@ -1,6 +1,6 @@
-import { filePromise } from 'aoc-utils';
+import { readFile } from 'aoc-utils';
 
-filePromise()
+readFile()
   .then((data) => {
     const elves: Array<Array<number>> = [[]]
     data.forEach((ration) => {

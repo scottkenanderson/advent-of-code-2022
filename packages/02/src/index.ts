@@ -1,4 +1,4 @@
-import { filePromise, sum } from 'aoc-utils';
+import { readFile, sum } from 'aoc-utils';
 
 enum Outcomes {
   Win,
@@ -89,7 +89,7 @@ const neededResult = (opponent: Shapes, outcome: Outcomes) => {
   throw new Error("Unknown outcome!")
 }
 
-filePromise()
+readFile()
   .then((data) => (data.map((line) => line.split(" "))))
   .then((strategyGuide) => {
     const outcomes = strategyGuide.map(
@@ -102,7 +102,7 @@ filePromise()
     console.log(`Part 1: ${outcomes}`);
   });
 
-filePromise()
+readFile()
   .then((data) => (data.map((line) => line.split(" "))))
   .then((strategyGuide) => {
     const outcomes = strategyGuide.map(
