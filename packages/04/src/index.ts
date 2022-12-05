@@ -1,7 +1,7 @@
 import { readFile } from 'aoc-utils';
 import { SectionAssignment } from './SectionAssignment';
 
-const readFile = readFile()
+const readFilePromise = readFile()
   .then((data) => (
     data
       .map((line) => line.split(','))
@@ -16,7 +16,7 @@ const readFile = readFile()
     )
   );
 
-readFile
+readFilePromise
   .then((assignments) =>
     assignments
       .map(([first, second]) => first.fullyContains(second) || second.fullyContains(first))
@@ -24,7 +24,7 @@ readFile
       .length
   ).then((count) => console.log(`Part 1: ${count}`))
 
-readFile
+readFilePromise
   .then((assignments) =>
     assignments
       .map(([first, second]) => first.overlaps(second) || second.overlaps(first))
