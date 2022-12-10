@@ -24,15 +24,13 @@ const generateGrid = (x: number, y: number): string[][] => {
 
 class Rope {
   knots: Coordinate[];
-  tailVisited: Set<Coordinate> = new Set<Coordinate>([ new Coordinate(0, 0)]);
+  tailVisited: Array<Coordinate> = [ new Coordinate(0, 0)];
 
   constructor (knotCount = 2) {
     this.knots = Array.from(Array(knotCount)).map(() => new Coordinate());
-    console.log(this.knots);
   }
 
   head() {
-    // console.log(this.knots)
     return this.knots[0];
   }
 
@@ -41,57 +39,65 @@ class Rope {
   }
 
   printGrid() {
-    const grid = generateGrid(5, 6);
-    // Array.from(this.tailVisited).forEach(({ x, y }) => grid[y][x] = '#');
-    grid[0][0] = 's';
-    this.knots.forEach((k, i) => grid[k.y][k.x] = i.toString());
-    grid[this.tail().y][this.tail().x] = 'T';
-    grid[this.head().y][this.head().x] = 'H';
+    const grid = generateGrid(30, 30);
+    const offsetX = 12;
+    const offsetY = 6;
+    grid[offsetY][offsetX] = 's';
+    Array.from(this.tailVisited).forEach(({ x, y }) => grid[y+offsetY][x+offsetX] = '#');
+    this.knots.forEach((k, i) => grid[k.y+offsetY][k.x+offsetX] = i.toString());
+    grid[this.tail().y+offsetY][this.tail().x+offsetX] = 'T';
+    grid[this.head().y+offsetY][this.head().x+offsetX] = 'H';
 
     console.log(grid.reverse().map((x) => x.join(' ')).join('\n'));
     console.log();
   }
 
-  move(instruction: Instruction): void {
-    // console.log(instruction)
-    for (let i = 0; i < instruction.distance; i++) {
-      let knot = this.knots[0];
-      let previous = new Coordinate(knot.x, knot.y);
-      switch(instruction.direction) {
-        case Direction.Right:
-          knot.x += 1;
-          break;
-        case Direction.Left:
-          knot.x -= 1;
-          break;
-        case Direction.Up:
-          knot.y += 1;
-          break;
-        case Direction.Down:
-          knot.y -= 1;
-          break;
-      }
-      for (let k = 0; k < this.knots.length - 1; k++) {
-        const next = this.knots[k+1];
-        console.log(knot, previous, next);
-        this.updateTail(previous, knot, next, k);
-        previous = new Coordinate(knot.x, knot.y);
-        knot = this.knots[k];
-      }
-      this.printGrid();
+  moveKnot(instruction: Instruction, knot: Coordinate): void {
+    switch(instruction.direction) {
+      case Direction.Right:
+        knot.x += 1;
+        break;
+      case Direction.Left:
+        knot.x -= 1;
+        break;
+      case Direction.Up:
+        knot.y += 1;
+        break;
+      case Direction.Down:
+        knot.y -= 1;
+        break;
     }
   }
 
-  updateTail(previousHead: Coordinate, knot: Coordinate, next: Coordinate, index: number): boolean {
-    if (this.headAndTailAreTouching(knot, next)) {
-      return false;
+  move(instruction: Instruction): void {
+    for (let i = 0; i < instruction.distance; i++) {
+      this.moveKnot(instruction, this.knots[0]);
+      for (let k = 1; k < this.knots.length; k += 1) {
+        const cur = this.knots[k-1];
+        const next = this.knots[k];
+
+        if (this.headAndTailAreTouching(cur, next)) {
+          break;
+        }
+
+        const diffX = cur.x - next.x;
+        if (diffX !== 0) {
+          const direction = diffX >= 1 ? Direction.Right : Direction.Left;
+          this.moveKnot(new Instruction(`${direction} 0`), next)
+        }
+
+        const diffY = cur.y - next.y;
+        if (diffY !== 0) {
+          const direction = diffY >= 1 ? Direction.Up : Direction.Down;
+          this.moveKnot(new Instruction(`${direction} 0`), next)
+        }
+
+        if (k === this.knots.length - 1) {
+          this.tailVisited.push(new Coordinate(this.tail().x, this.tail().y));
+        }
+      }
     }
-    this.knots[index + 1] = previousHead;
-    if (index === this.knots.length - 2) {
-      this.tailVisited.add(previousHead);
-      return true;
-    }
-    return false;
+    this.printGrid();
   }
 
   private headAndTailAreTouching(head: Coordinate, tail: Coordinate): boolean {
@@ -107,22 +113,20 @@ const readFilePromise = readFile()
     return data.map((i) => new Instruction(i));
   })
 
-  // readFilePromise.then((instructions) => {
-  //   const rope = new Rope();
-  //   instructions.forEach((i) => rope.move(i));
-  //   return rope;
-  // })
-  // .then((rope) => {
-  //   console.log('Part 1: ', new Set(Array.from(rope.tailVisited).map((c) => `${c.x},${c.y}`)).size);
-  // })
-
   readFilePromise.then((instructions) => {
-    const rope = new Rope(3);
+    const rope = new Rope(2);
     instructions.forEach((i) => rope.move(i));
     return rope;
   })
   .then((rope) => {
-    console.log('Part 2: ', new Set(Array.from(rope.tailVisited).map((c) => `${c.x},${c.y}`)).size);
-    const maxX = Array.from(rope.tailVisited).map(x => x.x).reduce(max);
-    const maxy = Array.from(rope.tailVisited).map(x => x.y).reduce(max);
+    console.log('Part 1: ', new Set(Array.from(rope.tailVisited).map((c) => `${c.x},${c.y}`)).size);
+  })
+
+  readFilePromise.then((instructions) => {
+    const rope = new Rope(10);
+    instructions.forEach((i) => rope.move(i));
+    return rope;
+  })
+  .then((rope) => {
+    console.log('Part 2: ', new Set(rope.tailVisited.map((c) => `${c.x},${c.y}`)).size);
   })
