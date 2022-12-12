@@ -1,0 +1,20 @@
+{
+  "name": "10",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js data/input.txt",
+    "start:dev": "npx nodemon data/example2.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@githubpersonal:scottkenanderson/advent-of-code-2022.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aoc-utils": "^1.0.0"
+  }
+}
