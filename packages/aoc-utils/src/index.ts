@@ -13,6 +13,8 @@ export const sum = (a: number, b: number): number => a + b;
 
 export const max = (a: number, b: number): number => Math.max(a, b);
 
+export const min = (a: number, b: number): number => Math.min(a, b);
+
 export const product = (a: number, b: number): number => a * b;
 
 export interface Range {
@@ -22,9 +24,27 @@ export interface Range {
 
 export class Grid<T> {
   data: T[][];
+  visited: Point[] = [];
 
   constructor(data: T[][]) {
     this.data = data;
+  }
+
+  rows(): number {
+    return this.data.length;
+  }
+
+  columns(): number {
+    return this.data[0].length || 0;
+  }
+
+  retrieve(p: Point): T {
+    this.visited.push(p);
+    return this.data[p.y][p.x];
+  }
+
+  toString(): string {
+    return this.data.map((g) => g.join('\t')).join('\n');
   }
 }
 
@@ -39,5 +59,27 @@ export class Coordinate {
 
   public equals(obj: Coordinate) : boolean {
     return this.x === obj.x && this.y === obj.y;
+  }
 }
+
+export class Point {
+  x: number;
+  y: number;
+
+  constructor(x: number = 0, y: number = 0) {
+    this.x = x;
+    this.y = y;
+  }
+
+  toString(): string {
+    return `${this.x},${this.y}`;
+  }
+
+  samePlane(other: Point): boolean {
+    return this.x === other.x || this.y === other.y
+  }
+
+  public equals(obj: Coordinate) : boolean {
+    return this.x === obj.x && this.y === obj.y;
+  }
 }
