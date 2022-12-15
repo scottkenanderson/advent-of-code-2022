@@ -8,7 +8,9 @@
   "devDependencies": {},
   "scripts": {
     "build": "tsc",
-    "start:dev": "npx nodemon",
+    "lint": "eslint --ext ts src",
+    "test": "jest",
+    "start:dev": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

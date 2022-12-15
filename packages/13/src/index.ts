@@ -1,35 +1,38 @@
-import { readFile, sum, product, min, Grid, Point, Range } from 'aoc-utils';
+import {readFile, sum, product} from 'aoc-utils';
+import {Pair, Packet} from './pair';
 
-class Pair {
-  left: string = '';
-  right: string = '';
-}
+const makePairs = async (): Promise<Pair[]> => readFile().then(data => {
+  const pairs: Pair[] = [];
+  for (let i = 0; i < data.length; i += 2) {
+    pairs.push(new Pair(data[i], data[i + 1]));
+  }
 
-const makeGrid = (): Promise<Pair[]> => {
-  return readFile().then((data) => {
-    const pairs: Pair[] = [];
-    pairs.push(new Pair());
-    data.forEach((item) => {
-      const lastPair = pairs[pairs.length-1];
-      if (!!lastPair.right) {
-        pairs.push(new Pair());
-        return;
-      }
-      if (lastPair.left === '') {
-        lastPair.left = item;
-        return;
-      }
-      if (lastPair.right === '') {
-        lastPair.right = item;
-        return;
-      }
-    })
-    return pairs; pairs.filter(pair => !!pair.left && !!pair.right);
-  })
-}
-
-
-makeGrid().then((pairs) => {
-  console.log(pairs);
-  // console.log(`Part 1: ${end.shortestPath}`);
+  return pairs;
 });
+
+makePairs().then(pairs => {
+  const indicesSum = pairs
+    .map((pair, i) => pair.isInTheCorrectOrder() ? i + 1 : 0)
+    .reduce(sum);
+
+  console.log(`Part 1: ${indicesSum}`);
+}, console.error);
+
+readFile().then(data => {
+  const packets: Packet[] = data.map((d: string) => new Packet(d));
+  const dividerPackets = ['[[2]]', '[[6]]'];
+
+  dividerPackets.forEach(p => {
+    packets.push(new Packet(p));
+  });
+
+  packets.sort((a, b) => Pair.prototype.compare(a, b));
+
+  const decoderKey = dividerPackets
+    .map(dp => packets.findIndex(p => p.rawValue === dp))
+    .map(i => i + 1)
+    .reduce(product);
+
+  console.log(`Part 2: ${decoderKey}`);
+}, console.error);
+

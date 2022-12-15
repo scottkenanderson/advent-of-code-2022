@@ -5,6 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint --ext ts src",
+    "test": "jest",
     "start": "npm run build && node dist/index.js data/input.txt",
     "start:dev": "npx nodemon data/example.txt"
   },
