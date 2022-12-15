@@ -1,13 +1,19 @@
 import fs from 'fs';
 
-export const readFile = (): Promise<Array<string>> => {
-  return new Promise<Array<string>>((resolve, reject) => {
-    const filename = process.argv[2];
-    fs.readFile(filename, 'utf8', (err: unknown, data: string) => {
-      resolve(data.split("\n").filter(s => s !== ''));
-    })
-  })
-};
+export const readFile = async (): Promise<string[]> => new Promise<string[]>((resolve, reject) => {
+  const filename = process.argv[2];
+  fs.readFile(filename, 'utf8', (err: unknown, data: string) => {
+    resolve(data.split('\n').filter(s => s !== ''));
+  });
+});
+
+export function zip<T>(a: T[], b: T[]): T[][] {
+  return Array.from(
+    Array(Math.max(a.length, b.length)), (_, i) => (
+      [a[i], b[i]]
+    ),
+  );
+}
 
 export const sum = (a: number, b: number): number => a + b;
 
@@ -17,17 +23,17 @@ export const min = (a: number, b: number): number => Math.min(a, b);
 
 export const product = (a: number, b: number): number => a * b;
 
-export interface Range {
+export type Range = {
   min: number;
   max: number;
-}
+};
 
 export class Grid<T> {
   data: T[][];
   visited: Point[] = [];
 
-  constructor(data: T[][]) {
-    this.data = data;
+  constructor(initialData: T[][]) {
+    this.data = initialData;
   }
 
   rows(): number {
@@ -44,7 +50,7 @@ export class Grid<T> {
   }
 
   toString(): string {
-    return this.data.map((g) => g.join('\t')).join('\n');
+    return this.data.map(g => g.join('\t')).join('\n');
   }
 }
 
@@ -52,12 +58,12 @@ export class Coordinate {
   x: number;
   y: number;
 
-  constructor(x: number = 0, y: number = 0) {
+  constructor(x = 0, y = 0) {
     this.x = x;
     this.y = y;
   }
 
-  public equals(obj: Coordinate) : boolean {
+  public equals(obj: Coordinate): boolean {
     return this.x === obj.x && this.y === obj.y;
   }
 }
@@ -66,7 +72,7 @@ export class Point {
   x: number;
   y: number;
 
-  constructor(x: number = 0, y: number = 0) {
+  constructor(x = 0, y = 0) {
     this.x = x;
     this.y = y;
   }
@@ -76,10 +82,10 @@ export class Point {
   }
 
   samePlane(other: Point): boolean {
-    return this.x === other.x || this.y === other.y
+    return this.x === other.x || this.y === other.y;
   }
 
-  public equals(obj: Coordinate) : boolean {
+  public equals(obj: Coordinate): boolean {
     return this.x === obj.x && this.y === obj.y;
   }
 }
