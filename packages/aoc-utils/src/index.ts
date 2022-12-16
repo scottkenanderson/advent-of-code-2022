@@ -31,9 +31,11 @@ export type Range = {
 export class Grid<T> {
   data: T[][];
   visited: Point[] = [];
+  separator: string;
 
-  constructor(initialData: T[][]) {
+  constructor(initialData: T[][], separator = '\t') {
     this.data = initialData;
+    this.separator = separator;
   }
 
   rows(): number {
@@ -50,7 +52,7 @@ export class Grid<T> {
   }
 
   toString(): string {
-    return this.data.map(g => g.join('\t')).join('\n');
+    return this.data.map(g => g.join(this.separator)).join('\n');
   }
 }
 
@@ -69,6 +71,23 @@ export class Coordinate {
 }
 
 export class Point {
+  public static pointsBetween(p1: Point, p2: Point): Point[] {
+    const xRange = {min: Math.min(p1.x, p2.x), max: Math.max(p1.x, p2.x)};
+    const yRange = {min: Math.min(p1.y, p2.y), max: Math.max(p1.y, p2.y)};
+    const points = [];
+    for (let y = yRange.min; y <= yRange.max; y += 1) {
+      for (let x = xRange.min; x <= xRange.max; x += 1) {
+        points.push(new Point(x, y));
+      }
+    }
+
+    return points;
+  }
+
+  public static equals(p1: Point, p2: Point): boolean {
+    return p1.x === p2.x && p1.y === p2.y;
+  }
+
   x: number;
   y: number;
 
