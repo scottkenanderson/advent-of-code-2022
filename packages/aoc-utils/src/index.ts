@@ -51,22 +51,12 @@ export class Grid<T> {
     return this.data[p.y][p.x];
   }
 
+  set(p: Point, value: T) {
+    this.data[p.y][p.x] = value;
+  }
+
   toString(): string {
     return this.data.map(g => g.join(this.separator)).join('\n');
-  }
-}
-
-export class Coordinate {
-  x: number;
-  y: number;
-
-  constructor(x = 0, y = 0) {
-    this.x = x;
-    this.y = y;
-  }
-
-  public equals(obj: Coordinate): boolean {
-    return this.x === obj.x && this.y === obj.y;
   }
 }
 
@@ -82,6 +72,10 @@ export class Point {
     }
 
     return points;
+  }
+
+  public static manhattanDistance(p1: Point, p2: Point): number {
+    return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
   }
 
   public static equals(p1: Point, p2: Point): boolean {
@@ -104,7 +98,23 @@ export class Point {
     return this.x === other.x || this.y === other.y;
   }
 
-  public equals(obj: Coordinate): boolean {
+  offset(xOffset: number, yOffset: number): Point {
+    return new Point(this.x + xOffset, this.y + yOffset);
+  }
+
+  neighbours(manhattanDistance: number): Point[] {
+    const top = new Point(this.x, this.y + manhattanDistance);
+    const right = new Point(this.x + manhattanDistance, this.y);
+    const bottom = new Point(this.x, this.y - manhattanDistance);
+    const left = new Point(this.x - manhattanDistance, this.y);
+
+    return [top, right, bottom, left];
+  }
+
+  public equals(obj: Point): boolean {
     return this.x === obj.x && this.y === obj.y;
   }
+}
+
+export class Coordinate extends Point {
 }
